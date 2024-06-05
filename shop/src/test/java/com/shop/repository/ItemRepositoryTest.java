@@ -66,10 +66,8 @@ class ItemRepositoryTest {
     @DisplayName("상품명 조회 테스트")
     public void findByItemNmTest(){
         this.createItemList();
-        List<Item> itemList = itemRepository.findByItemNm("테스트 상품1");
-        for(Item item : itemList){
-            System.out.println(item.toString());
-        }
+        Item itemList = itemRepository.findByItemNm("테스트 상품1");
+            System.out.println(itemList.toString());
     }
 
     @Test

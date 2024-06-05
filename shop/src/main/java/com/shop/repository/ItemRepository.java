@@ -29,4 +29,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
             "%:itemDetail% order by i.price desc", nativeQuery = true)
     List<Item> findByItemDetailByNative(@Param("itemDetail") String itemDetail);
 
+    @Query("SELECT i FROM Item i WHERE i.itemNm IN :itemNames")
+    List<Item> findByItemNmIn(@Param("itemNames") List<String> itemNames);
 }
