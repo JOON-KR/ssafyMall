@@ -20,6 +20,9 @@ public class Entities {
     @JoinColumn(name = "item_nm")
     private Item item;
 
+    @Column(name = "entity", nullable = false)
+    private String entity;
+
     @Column(name = "weight", nullable = false)
     private Double weight;
 }
