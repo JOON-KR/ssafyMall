@@ -19,6 +19,19 @@ import lombok.RequiredArgsConstructor;
 public class Cosine {
 	
 	private ItemRepository itemRepositiry;
+	private GcpNaturalLanguage gnl;
+	
+	public List<Item> getSimilarityItem(String itemName){
+		List<EntitiesDto> itemEntity = gnl.getPositiveEntities(itemName);
+		List<Item> temp= itemRepositiry.findAll();
+		List<List<EntitiesDto>> list = new ArrayList<List<EntitiesDto>>();
+		for(Item item : temp) {
+			List<EntitiesDto> tmp = gnl.getPositiveEntities(item.getItemNm());
+			list.add(tmp);
+		}
+		return cosineSimilarity(itemEntity, list);
+	}
+	
 	
 	public List<Item> cosineSimilarity(List<EntitiesDto> Item, List<List<EntitiesDto>> list) {
 		List<Item> result = new ArrayList<Item>();

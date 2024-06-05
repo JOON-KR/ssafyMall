@@ -15,11 +15,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.shop.dto.EntitiesDto;
+import com.shop.entity.Review;
+import com.shop.repository.ReviewRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class GcpNaturalLanguage {
 	private static String apiKey;
 	private static final RestTemplate restTemplate = new RestTemplate();
-
+	private final ReviewRepository reviewRepository;
+	
 	static {
 		try {
 			InputStream inputStream = GcpNaturalLanguage.class.getClassLoader()
@@ -119,8 +125,45 @@ public class GcpNaturalLanguage {
 		analyzeText(text,0,"Item");
 	}
 	
-	public List<EntitiesDto> getAllItemEntities(String itemName){
+	//긍정리뷰 엔티티 반환(워드 클라우드 생성 및 코사인유사도 활용)
+	public List<EntitiesDto> getPositiveEntities(String itemName){
+		List<Review> reviewList = reviewRepository.findByItemNm(itemName);
+		String text = "";
+		for(Review review : reviewList) {
+			double Score = 0;
+			analyzeText(review.getContent(), Score, itemName);
+			if(Score < 0 ) continue;
+			text+=review.getContent()+" ";
+		}
 		
+		List<EntitiesDto>result = analyzeText(text, 0, itemName);
+		return result;
+	}
+	//부정리뷰 반환(워드 클라우드 생성용)
+	public List<EntitiesDto> getUnPositiveEntities(String itemName){
+		List<Review> reviewList = reviewRepository.findByItemNm(itemName);
+		String text = "";
+		for(Review review : reviewList) {
+			double Score = 0;
+			analyzeText(review.getContent(), Score, itemName);
+			if(Score >= 0 ) continue;
+			text+=review.getContent()+" ";
+		}
+		
+		List<EntitiesDto>result = analyzeText(text, 0, itemName);
+		return result;
+	}
+	//평점 반환
+	public double getTotalScore(String itemName) {
+		List<Review> reviewList = reviewRepository.findByItemNm(itemName);
+		String text = "";
+		double Score = 0;
+		for(Review review : reviewList) {
+			text+=review.getContent()+" ";
+		}
+		List<EntitiesDto>result = analyzeText(text, Score, itemName);
+		Score = Score * 50 + 5;
+		return Score;
 	}
 	
 	static class EntityInfo {
