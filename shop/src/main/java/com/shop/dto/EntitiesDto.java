@@ -1,6 +1,6 @@
 package com.shop.dto;
 
-public class EntitiesDTO {
+public class EntitiesDto {
 
     private Long id;
 
