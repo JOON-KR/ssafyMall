@@ -16,9 +16,8 @@ public class Entities {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_nm")
-    private Item item;
+    @Column(name = "item_nm", nullable = false)
+    private String itemNm;
 
     @Column(name = "entity", nullable = false)
     private String entity;

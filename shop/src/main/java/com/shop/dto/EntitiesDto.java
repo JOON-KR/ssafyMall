@@ -1,6 +1,11 @@
 package com.shop.dto;
 
-public class EntitiesDTO {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class EntitiesDto {
 
     private Long id;
 
