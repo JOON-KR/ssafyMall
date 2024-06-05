@@ -2,6 +2,7 @@ package com.shop.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,14 +11,21 @@ import java.util.Set;
 
 import com.shop.dto.EntitiesDto;
 import com.shop.entity.Item;
+import com.shop.repository.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class WordCloud {
+public class Cosine {
+	
+	private ItemRepository itemRepositiry;
 	
 	public List<Item> cosineSimilarity(List<EntitiesDto> Item, List<List<EntitiesDto>> list) {
 		List<Item> result = new ArrayList<Item>();
+		int itemIndex = 0;
+		
+		//코사인 유사도 값으로 정렬할 리스트
+		List<double[]> cosineList = new ArrayList<double[]>();
 		for (List<EntitiesDto> entityList : list) {
 			//엔티티 리스트
 			String[] entities = entityList(entityList, Item);
@@ -31,8 +39,17 @@ public class WordCloud {
 			double [] otherVector = vectorization(index, entities.length, entityList);
 			
 			//A와 B 코사인 유사도 계산
+			double cosineScore = calculateCosineSimilarity(ItemVector, otherVector);
+			double [] temp = {itemIndex++, cosineScore};
+			cosineList.add(temp);
 		}
+		//코사인 유사도 순으로 정렬(내림차)
+		Collections.sort(cosineList, (o1,o2)->Double.compare(o2[1], o1[1]));
 		
+		for(int i = 0; i < cosineList.size() && i < 10 ; i++) {
+			String name = list.get((int)cosineList.get(i)[0]).get(0).getItemNm();
+			result.add(itemRepositiry.findByItemNm(name));
+		}
 		
 		return result;
 	}
@@ -42,10 +59,12 @@ public class WordCloud {
 	        Set<String> entitySet = new HashSet<>();
 	        // 상품 A 엔티티 추가
 	        for (EntitiesDto entity : A) {
+	        	if(entity.getWeight()<0) continue;
 	            entitySet.add(entity.getEntity());
 	        }
 	        // 상품 B 엔티티 추가
 	        for (EntitiesDto entity : B) {
+	        	if(entity.getWeight()<0) continue;
 	            entitySet.add(entity.getEntity());
 	        }
 
