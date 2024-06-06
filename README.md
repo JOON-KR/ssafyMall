@@ -25,11 +25,11 @@
 ### ⚙️ 개발 환경
 - `Java 17`
 - `JDK 17.0.1`
-- **IDE** : STS 4, eclipse
+- **IDE** : STS 4, Eclipse, IntelliJ
 - **Framework** : Springboot, Spring-Security
 - **Database** : My SQL
 - **ORM** : Mybatis
-- **api** : glp Natural Language Entity, Naver keyWord AD
+- **api** : google Natural Language Entity, Naver keyWord AD
 
 </br>
 
@@ -42,10 +42,11 @@
 ### 리뷰
 
 #### 리뷰 시각화
-- GCP Sentiment 기반 상품 평점 관리, Natural Language Entity 기반 상품 간 유사도 분석 알고리즘(Cosine Similarity),사용자간 유사도 분석 알고리즘 (Jaccard Similarity)을 통한 데이터 시각화(Entity WordCloud)
+- Sentiment 기반 상품 평점 관리, Natural Language Entity 기반 상품 간 유사도 분석 알고리즘(Cosine Similarity),사용자간 유사도 분석 알고리즘 (Jaccard Similarity)을 통해 긍정적 키워드, 부정적 키워드를 구분하여 워드 클라우드 데이터 시각화(Entity WordCloud)
 
-### 
-
+#### 상품 추천
+- 사용자간 유사도 분석 알고리즘 (Jaccard Similarity)과 Natural Language Entity 기반 상품 간 유사도 분석 알고리즘(Cosine Similarity)을 통한 상품 추천
+- Naver ad api를 활용하여 상품 검색 시 연관 검색어를 추출 후 상품 추천
     
 
 </br>
@@ -65,4 +66,6 @@
 > 윤여준
 - 
 > 이소연
-- 
+- 삼성 청년 sw 아카데미에서 배웠던 기술들을 토대로 ssafy 프로젝트 외에 새로운 도전을 시도했습니다. 아직 부족한 부분이 많지만 지난 프로젝트 때 시도해보고 싶었던 Spring-Security를 통해 로그인 보안을 구현했습니다.
+그리고 배웠던 api 외에 새로운 naver ad api를 가지고 이번 쇼핑몰 프로젝트에 적합한 기능을 구현해보며 어려움도 겪었지만 더 성장할 수 있던 시간이었습니다.
+하반기 프로젝트 때는 더 다양한 api를 구현하고 back, front에서의 에러 처리에 대해서도 공부를 해보고 싶습니다. 
