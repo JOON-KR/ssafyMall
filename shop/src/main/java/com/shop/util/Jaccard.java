@@ -27,12 +27,12 @@ public class Jaccard {
 	private List<Item> CalJaccardSimilar(List<CartDetailDto> User, List<List<CartDetailDto>> list) {
 		
 		List<double[]> filteredList = new ArrayList<>();
+		Set<String> user = new HashSet<>();
+		for(int j = 0; j < User.size();j++) {
+			user.add(User.get(j).getItemNm());
+		}
 		for (int i = 0; i < list.size(); i++) {
 			List<CartDetailDto> tmp = list.get(i);
-			Set<String> user = new HashSet<>();
-			for(int j = 0; j < User.size();j++) {
-				user.add(User.get(j).getItemNm());
-			}
 			Set<String> other = new HashSet<>();
 			for(int j = 0; j < User.size();j++) {
 				other.add(tmp.get(j).getItemNm());
@@ -65,7 +65,8 @@ public class Jaccard {
 			List<CartDetailDto> cdd = list.get(idx);
 			for(int j = 0; j<cdd.size();j++) {
 				String name = cdd.get(j).getItemNm();
-				if(map.containsValue(name)) {
+				if(user.contains(name))continue;
+				if(map.containsKey(name)) {
 					countingList.get(map.get(name))[1] = ""+(Integer.parseInt(countingList.get(map.get(name))[1])+1)  ;
 				}else {
 					map.put(name, indexVal++);
