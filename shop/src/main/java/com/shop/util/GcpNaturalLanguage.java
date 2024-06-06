@@ -38,7 +38,7 @@ public class GcpNaturalLanguage {
 		}
 	}
 
-	private static List<EntitiesDto> analyzeText(String text,double SentimentScore, String itemName) {
+	private static List<EntitiesDto> analyzeText(String text, String itemName) {
 		List<EntitiesDto> result = new ArrayList<EntitiesDto>();
 		
 		String sentimentUrl = "https://language.googleapis.com/v1/documents:analyzeSentiment?key=" + apiKey;
@@ -66,7 +66,9 @@ public class GcpNaturalLanguage {
 				Map<String, Object> sentiment = (Map<String, Object>) sentimentBody.get("documentSentiment");
 				Number score = (Number) sentiment.get("score");
 				Number magnitude = (Number) sentiment.get("magnitude");
-				SentimentScore = score.doubleValue();
+				EntitiesDto sc = new EntitiesDto();
+				sc.setWeight(score.doubleValue());
+				result.add(sc);
 				sentimentResult = String.format("Sentiment Score: %.2f\nSentiment Magnitude: %.2f", score.doubleValue(),
 						magnitude.doubleValue());
 			}
@@ -122,7 +124,7 @@ public class GcpNaturalLanguage {
 		System.out.println(apiKey);
 		String text = scanner.nextLine();
 
-		analyzeText(text,0,"Item");
+		analyzeText(text,"Item");
 	}
 	
 	//긍정리뷰 엔티티 반환(워드 클라우드 생성 및 코사인유사도 활용)
@@ -131,26 +133,32 @@ public class GcpNaturalLanguage {
 		String text = "";
 		for(Review review : reviewList) {
 			double Score = 0;
-			analyzeText(review.getContent(), Score, itemName);
+			List<EntitiesDto> tmp = analyzeText(review.getContent(),  itemName);
+			Score = tmp.get(0).getWeight();
+			System.out.println("Score점수: "+ Score);
 			if(Score < 0 ) continue;
 			text+=review.getContent()+" ";
 		}
 		
-		List<EntitiesDto>result = analyzeText(text, 0, itemName);
+		List<EntitiesDto>result = analyzeText(text,  itemName);
+		result.remove(0);
 		return result;
 	}
 	//부정리뷰 반환(워드 클라우드 생성용)
-	public List<EntitiesDto> getUnPositiveEntities(String itemName){
+	public List<EntitiesDto> getNegativeEntities(String itemName){
 		List<Review> reviewList = reviewRepository.findByItemNm(itemName);
 		String text = "";
 		for(Review review : reviewList) {
 			double Score = 0;
-			analyzeText(review.getContent(), Score, itemName);
+			List<EntitiesDto> tmp = analyzeText(review.getContent(),  itemName);
+			Score = tmp.get(0).getWeight();
+			System.out.println("Score점수: "+ Score);
 			if(Score >= 0 ) continue;
 			text+=review.getContent()+" ";
 		}
 		
-		List<EntitiesDto>result = analyzeText(text, 0, itemName);
+		List<EntitiesDto>result = analyzeText(text,  itemName);
+		result.remove(0);
 		return result;
 	}
 	//평점 반환
@@ -161,8 +169,8 @@ public class GcpNaturalLanguage {
 		for(Review review : reviewList) {
 			text+=review.getContent()+" ";
 		}
-		List<EntitiesDto>result = analyzeText(text, Score, itemName);
-		Score = Score * 50 + 5;
+		List<EntitiesDto>result = analyzeText(text, itemName);
+		Score = result.get(0).getWeight() * 50 + 5;
 		return Score;
 	}
 	
