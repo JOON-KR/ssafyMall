@@ -68,7 +68,7 @@ public class CartService {
             return cartDetailDtoList;
         }
 
-        cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
+        cartDetailDtoList = cartItemRepository.findCartDetailDtoList("");
         return cartDetailDtoList;
     }
 

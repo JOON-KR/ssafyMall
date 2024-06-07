@@ -1,12 +1,12 @@
 package com.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.constant.ItemSellStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.persistence.*;
-import com.shop.dto.ItemFormDto;
 import com.shop.exception.OutOfStockException;
 
 @Entity
@@ -34,16 +34,15 @@ public class Item extends BaseEntity {
     @Column(nullable = false)
     private String itemDetail; //상품 상세 설명
 
+
+
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private ItemSellStatus itemSellStatus; //상품 판매 상태
 
-    public void updateItem(ItemFormDto itemFormDto){
-        this.itemNm = itemFormDto.getItemNm();
-        this.price = itemFormDto.getPrice();
-        this.stockNumber = itemFormDto.getStockNumber();
-        this.itemDetail = itemFormDto.getItemDetail();
-        this.itemSellStatus = itemFormDto.getItemSellStatus();
-    }
+    @Column(nullable = false)
+    private String imgUrl;
+
 
     public void removeStock(int stockNumber){
         int restStock = this.stockNumber - stockNumber;

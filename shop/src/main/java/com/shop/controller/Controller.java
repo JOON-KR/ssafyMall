@@ -4,6 +4,7 @@ import java.util.*;
 import com.shop.dto.EntitiesDto;
 import com.shop.entity.Item;
 import com.shop.entity.Review;
+import com.shop.repository.ItemRepository;
 import com.shop.repository.ReviewRepository;
 import com.shop.util.Cosine;
 import com.shop.util.GcpNaturalLanguage;
@@ -11,18 +12,17 @@ import com.shop.util.Jaccard;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/mall")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class Controller {
     private final Jaccard jaccard;
     private final GcpNaturalLanguage gnl;
     private final ReviewRepository reviewRepository;
+
+    private final ItemRepository itemRepository;
     private final Cosine cos;
     @GetMapping("/cosine/{itemNm}")
     public ResponseEntity<?> getCosineItem (@PathVariable String itemNm){
@@ -30,6 +30,17 @@ public class Controller {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/item")
+    public ResponseEntity<?> getItem (){
+        List<Item> result = itemRepository.findAll();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public  ResponseEntity<?> getSearchItem(@RequestBody List<String> keywords) {
+        List<Item> result = itemRepository.findByItemNmIn(keywords);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @GetMapping("/jaccard/{memberId}")
     public ResponseEntity<?> getJaccardItem (@PathVariable String memberId){

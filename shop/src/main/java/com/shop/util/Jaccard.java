@@ -18,8 +18,12 @@ import com.shop.repository.MemberRepository;
 import com.shop.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Component
 public class Jaccard {
 
 	private final ItemRepository itemRepository;

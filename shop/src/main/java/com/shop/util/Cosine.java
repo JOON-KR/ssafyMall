@@ -14,12 +14,14 @@ import com.shop.entity.Item;
 import com.shop.repository.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class Cosine {
 	
-	private ItemRepository itemRepositiry;
-	private GcpNaturalLanguage gnl;
+	private final ItemRepository itemRepositiry;
+	private final GcpNaturalLanguage gnl;
 	
 	public List<Item> getSimilarityItem(String itemName){
 		List<EntitiesDto> itemEntity = gnl.getPositiveEntities(itemName);
@@ -58,8 +60,9 @@ public class Cosine {
 		}
 		//코사인 유사도 순으로 정렬(내림차)
 		Collections.sort(cosineList, (o1,o2)->Double.compare(o2[1], o1[1]));
-		
-		for(int i = 0; i < cosineList.size() && i < 10 ; i++) {
+		System.out.println(cosineList.size());
+		System.out.println(list.get(0).get(0).getItemNm());
+		for(int i = 0; i < cosineList.size() && i < 10 &&i<list.size() ; i++) {
 			String name = list.get((int)cosineList.get(i)[0]).get(0).getItemNm();
 			result.add(itemRepositiry.findByItemNm(name));
 		}

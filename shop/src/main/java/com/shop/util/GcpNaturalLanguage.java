@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.shop.dto.EntitiesDto;
@@ -21,6 +22,7 @@ import com.shop.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Component
 public class GcpNaturalLanguage {
 	private static String apiKey;
 	private static final RestTemplate restTemplate = new RestTemplate();
@@ -108,7 +110,7 @@ public class GcpNaturalLanguage {
 				entitiesResult.append("No entities found.");
 			}
 
-			System.out.println(String.format("Text: %s\n\n%s\n\n%s", text, sentimentResult, entitiesResult.toString()));
+			//System.out.println(String.format("Text: %s\n\n%s\n\n%s", text, sentimentResult, entitiesResult.toString()));
 			
 			
 		} catch (Exception e) {
@@ -134,14 +136,14 @@ public class GcpNaturalLanguage {
 		for(Review review : reviewList) {
 			double Score = 0;
 			List<EntitiesDto> tmp = analyzeText(review.getContent(),  itemName);
-			Score = tmp.get(0).getWeight();
+			if(tmp.size() > 0) Score = tmp.get(0).getWeight();
 			System.out.println("Score점수: "+ Score);
 			if(Score < 0 ) continue;
 			text+=review.getContent()+" ";
 		}
 		
 		List<EntitiesDto>result = analyzeText(text,  itemName);
-		result.remove(0);
+		if(result.size() > 0) result.remove(0);
 		return result;
 	}
 	//부정리뷰 반환(워드 클라우드 생성용)
@@ -151,14 +153,14 @@ public class GcpNaturalLanguage {
 		for(Review review : reviewList) {
 			double Score = 0;
 			List<EntitiesDto> tmp = analyzeText(review.getContent(),  itemName);
-			Score = tmp.get(0).getWeight();
+			if(tmp.size() > 0) Score = tmp.get(0).getWeight();
 			System.out.println("Score점수: "+ Score);
 			if(Score >= 0 ) continue;
 			text+=review.getContent()+" ";
 		}
 		
 		List<EntitiesDto>result = analyzeText(text,  itemName);
-		result.remove(0);
+		if(result.size() > 0) result.remove(0);
 		return result;
 	}
 	//평점 반환
@@ -170,7 +172,7 @@ public class GcpNaturalLanguage {
 			text+=review.getContent()+" ";
 		}
 		List<EntitiesDto>result = analyzeText(text, itemName);
-		Score = result.get(0).getWeight() * 50 + 5;
+		if(result.size() > 0) Score = result.get(0).getWeight() * 5 + 5;
 		return Score;
 	}
 	
