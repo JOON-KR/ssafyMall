@@ -21,7 +21,7 @@
                 <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
 
                   <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                    <div class="col" v-for="item in items" :key ="item.id"><ItemAllDetail :item="item" /></div>
+                    <div class="col" v-for="item in items" :key ="item.id"><ItemAllDetail :item="item"/></div>
                   </div>
                   
                 </div>
@@ -76,6 +76,7 @@ onMounted(() => {
   }).catch(err => console.log(err))
 
 })
+
 </script>
 
 <style scoped>

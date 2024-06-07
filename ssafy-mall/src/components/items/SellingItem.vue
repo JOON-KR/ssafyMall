@@ -6,7 +6,7 @@
           <div class="row flex-column-reverse flex-lg-row">
             <div class="col-md-12 col-lg-2">
               <!-- product-thumbnail-slider -->
-              <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" 
+              <!-- <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" 
               class="product-thumbnail-slider" 
               direction="vertical" 
               slidesPerView="auto" 
@@ -26,7 +26,7 @@
                 <SwiperSlide>
                   <img src="@/assets/images/product-thumbnail-5.jpg" alt="" class="thumb-image img-fluid">
                 </SwiperSlide>
-              </Swiper>
+              </Swiper> -->
               <!-- / product-thumbnail-slider -->
             </div>
             <div class="col-md-12 col-lg-10">
@@ -37,27 +37,7 @@
               pagination :navigation="true">
                 <SwiperSlide>
                   <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-1.jpg">
-                    <img src="@/assets/images/product-large-1.jpg" alt="product-large" class="img-fluid">
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-2.jpg">
-                    <img src="@/assets/images/product-large-2.jpg" alt="product-large" class="img-fluid">
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-3.jpg">
-                    <img src="@/assets/images/product-large-3.jpg" alt="product-large" class="img-fluid">
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-4.jpg">
-                    <img src="@/assets/images/product-large-4.jpg" alt="product-large" class="img-fluid">
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-5.jpg">
-                    <img src="@/assets/images/product-large-5.jpg" alt="product-large" class="img-fluid">
+                    <img :src="imageUrl" alt="product-large" class="img-fluid" style="object-fit: cover;">
                   </div>
                 </SwiperSlide>
               </Swiper>
@@ -68,7 +48,7 @@
         <div class="col-lg-5">
           <div class="product-info">
             <div class="element-header">
-              <h2 itemprop="name" class="display-6">Cashew Butter 500mg CBD</h2>
+              <h2 itemprop="name" class="display-6">{{ item.itemNm }}</h2>
               <div class="rating-container d-flex gap-0 align-items-center">
                 <div class="rating" data-rating="1">
                   <svg width="32" height="32" class="text-primary">
@@ -95,13 +75,13 @@
                     <use xlink:href="#star-solid"></use>
                   </svg>
                 </div>
-                <span class="rating-count">(3.5)</span>
+                <span class="rating-count" v-if="score != null">{{ score / 2 }}</span>
               </div>
             </div>
             <div class="product-price pt-3 pb-3">
-              <strong class="text-primary display-6 fw-bold">$870.00</strong><del class="ms-2">$940.00</del>
+              <strong class="text-primary display-6 fw-bold">₩ {{ item.price }}</strong>
             </div>
-            <p>Justo, cum feugiat imperdiet nulla molestie ac vulputate scelerisque amet. Bibendum adipiscing platea blandit sit sed quam semper rhoncus. Diam ultrices maecenas consequat eu tortor orci, cras lectus mauris, cras egestas quam venenatis neque.</p>
+            <p>{{ item.itemDetail }}</p>
             <div class="cart-wrap py-5">
               <div class="color-options product-select">
                 <div class="color-toggle" data-option-index="0">
@@ -140,7 +120,6 @@
                 </ul>
               </div>
               <div class="product-quantity pt-3">
-                <div class="stock-number text-dark"><em>2 in stock</em></div>
                 <div class="stock-button-wrap">
                   <div class="input-group product-qty" style="max-width: 150px;">
                     <span class="input-group-btn">
@@ -160,8 +139,8 @@
                     </span>
                   </div>
                   <div class="qty-button d-flex flex-wrap pt-3">
-                    <button type="submit" class="btn btn-primary py-3 px-4 text-uppercase me-3 mt-3">Buy now</button>
-                    <button type="submit" name="add-to-cart" value="1269" class="btn btn-dark py-3 px-4 text-uppercase mt-3">Add to cart</button>
+                    <button type="submit" class="btn btn-primary py-3 px-4 text-uppercase me-3 mt-3">구매하기</button>
+                    <button type="submit" name="add-to-cart" value="1269" class="btn btn-dark py-3 px-4 text-uppercase mt-3">장바구니</button>
                   </div>
                 </div>
               </div>
@@ -181,6 +160,17 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
+import { computed } from 'vue'
+
+const props = defineProps({
+    item: Object,
+    score: Number
+})
+
+const imageUrl = computed(() => {
+  return new URL(`../../assets/images/${props.item.imgUrl}`, import.meta.url).href;
+});
+
 </script>
 
 <style scoped>

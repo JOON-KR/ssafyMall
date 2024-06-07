@@ -70,8 +70,7 @@
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
               <RouterLink to="/">
-                <!-- <h3>SSAFY MALL</h3> -->
-                <img src="@/assets/images/logo.png" alt="logo" class="img-fluid">
+                <img src="@/assets/images/logo.png" alt="logo" class="img-fluid" style="width: 120px;">
               </RouterLink>
             </div>
           </div>

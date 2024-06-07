@@ -7,24 +7,21 @@
             aria-orientation="vertical">
             <button class="nav-link text-start active" id="v-pills-description-tab" data-bs-toggle="pill"
               data-bs-target="#v-pills-description" type="button" role="tab" aria-controls="v-pills-description"
-              aria-selected="true">Description</button>
+              aria-selected="true">상세 설명</button>
             <button class="nav-link text-start" id="v-pills-additional-tab" data-bs-toggle="pill"
               data-bs-target="#v-pills-additional" type="button" role="tab" aria-controls="v-pills-additional"
-              aria-selected="false">Additional Information</button>
+              aria-selected="false">키워드</button>
             <button class="nav-link text-start" id="v-pills-reviews-tab" data-bs-toggle="pill"
               data-bs-target="#v-pills-reviews" type="button" role="tab" aria-controls="v-pills-reviews"
-              aria-selected="false">Customer Reviews</button>
+              aria-selected="false">리뷰 보기</button>
           </div>
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-description" role="tabpanel"
               aria-labelledby="v-pills-description-tab" tabindex="0">
-              <h5>Product Description</h5>
-              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.
-                Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec
-                nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim
-                pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula
-                vulputate sem tristique cursus.</p>
-              <ul style="list-style-type:disc;" class="list-unstyled ps-4">
+              <h5>{{  item.itemNm }}</h5>
+              <p>{{ item.itemDetail }}</p>
+
+              <!-- <ul style="list-style-type:disc;" class="list-unstyled ps-4">
                 <li>Donec nec justo eget felis facilisis fermentum.</li>
                 <li>Suspendisse urna viverra non, semper suscipit pede.</li>
                 <li>Aliquam porttitor mauris sit amet orci.</li>
@@ -33,66 +30,31 @@
                 Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec
                 nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim
                 pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula
-                vulputate sem tristique cursus. </p>
+                vulputate sem tristique cursus. </p> -->
             </div>
             <div class="tab-pane fade" id="v-pills-additional" role="tabpanel"
               aria-labelledby="v-pills-additional-tab" tabindex="0">
-              <p>It is Comfortable and Best</p>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</p>
+              <WordCloud :words="positiveWords" />
+              <!-- <WordCloud :words="negativeWords" /> -->
             </div>
-            <div class="tab-pane fade" id="v-pills-reviews" role="tabpanel" aria-labelledby="v-pills-reviews-tab"
+            <div class="tab-pane fade mb-3" id="v-pills-reviews" role="tabpanel" aria-labelledby="v-pills-reviews-tab"
               tabindex="0">
+              
+              <div class="add-review mt-5">
+                <h3>리뷰 작성</h3>
+                <form id="form" class="form-group">
+
+                  <div class="pb-3">
+                    <label>리뷰를 작성해주세요 !</label>
+                    <textarea class="form-control" placeholder="20자 이상 작성해주세요."></textarea>
+                  </div>
+                  <button type="submit" name="submit"
+                    class="btn btn-dark text-uppercase w-30">작성하기</button>
+                </form>
+              </div>
+
               <div class="review-box d-flex flex-wrap">
-                <div class="col-lg-6 d-flex flex-wrap gap-3">
-                  <div class="col-md-2">
-                    <div class="image-holder">
-                      <img src="@/assets/images/reviewer-1.jpg" alt="review" class="img-fluid rounded-circle">
-                    </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="review-content">
-                      <div class="rating-container d-flex align-items-center">
-                        <div class="rating" data-rating="1">
-                          <svg width="24" height="24" class="text-primary">
-                            <use xlink:href="#star-solid"></use>
-                          </svg>
-                        </div>
-                        <div class="rating" data-rating="2">
-                          <svg width="24" height="24" class="text-primary">
-                            <use xlink:href="#star-solid"></use>
-                          </svg>
-                        </div>
-                        <div class="rating" data-rating="3">
-                          <svg width="24" height="24" class="text-primary">
-                            <use xlink:href="#star-solid"></use>
-                          </svg>
-                        </div>
-                        <div class="rating" data-rating="4">
-                          <svg width="24" height="24" class="text-secondary">
-                            <use xlink:href="#star-solid"></use>
-                          </svg>
-                        </div>
-                        <div class="rating" data-rating="5">
-                          <svg width="24" height="24" class="text-secondary">
-                            <use xlink:href="#star-solid"></use>
-                          </svg>
-                        </div>
-                        <span class="rating-count">(3.5)</span>
-                      </div>
-                      <div class="review-header">
-                        <span class="author-name">Tina Johnson</span>
-                        <span class="review-date">– 03/07/2023</span>
-                      </div>
-                      <p>Vitae tortor condimentum lacinia quis vel eros donec ac. Nam at lectus urna duis convallis
-                        convallis</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 d-flex flex-wrap gap-3">
+                <div class="col-lg-6 d-flex flex-wrap gap-3" v-for="review in reviews" :key="review.id">
                   <div class="col-md-2">
                     <div class="image-holder">
                       <img src="@/assets/images/reviewer-2.jpg" alt="review" class="img-fluid rounded-circle">
@@ -129,28 +91,13 @@
                         <span class="rating-count">(3.5)</span>
                       </div>
                       <div class="review-header">
-                        <span class="author-name">Jenny Willis</span>
-                        <span class="review-date">– 03/06/2022</span>
+                        <span class="author-name">{{ review.title }}</span>
+                        <span class="review-date">{{ review.regDate }}</span>
                       </div>
-                      <p>Vitae tortor condimentum lacinia quis vel eros donec ac. Nam at lectus urna duis convallis
-                        convallis</p>
+                      <p>{{ review.content }}</p>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div class="add-review mt-5">
-                <h3>리뷰 작성</h3>
-                <p>Your email address will not be published. Required fields are marked *</p>
-                <form id="form" class="form-group">
-
-                  <div class="pb-3">
-                    <label>Your Review *</label>
-                    <textarea class="form-control" placeholder="Write your review here"></textarea>
-                  </div>
-                  <button type="submit" name="submit"
-                    class="btn btn-dark btn-large text-uppercase w-100">Submit</button>
-                </form>
               </div>
             </div>
           </div>
@@ -161,45 +108,19 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import VueWordCloud from 'vuewordcloud';
-import { ref } from 'vue'
+import { computed } from 'vue'
+import WordCloud from '../commons/WordCloud.vue';
 
-const URL = 'http://localhost:80'
+const props = defineProps({
+    item: Object,
+    score: Number,
+    reviews: Array,
+    positiveWords: Array,
+    negativeWords: Array,
+})
 
-const positiveWords = ref([])
-const negativeWords = ref([])
-const reviews = ref([])
-const score = ref(0)
-
-// // get positive
-axios(URL + '/positive/item1')
-.then((res) => {
-positiveWords.value = res.data
-console.log("positive = ", positiveWords)
-}).catch(err => console.log(err))
-
-// get negative
-axios(URL + '/negative/item1')
-.then((res) => {
-negativeWords.value = res.data
-console.log("negative = ", negativeWords)
-
-}).catch(err => console.log(err))
-
-// get reviews
-axios(URL + '/review/item1')
-.then((res) => {
-reviews.value = res.data
-console.log("review = ", reviews)
-
-}).catch(err => console.log(err))
-
-// get score
-axios(URL + '/score/item1')
-.then((res) => {
-score.value = res.data
-console.log("score = ", score)
-}).catch(err => console.log(err))
+const imageUrl = computed(() => {
+  return new URL(`../../assets/images/${props.item.imgUrl}`, import.meta.url).href;
+});
 
 </script>
