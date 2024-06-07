@@ -12,11 +12,10 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     CartItem findByCartIdAndItemId(Long cartId, Long itemId);
 
     @Query("select new com.shop.dto.CartDetailDto(ci.id, ci.cart.member.name, i.itemNm, i.price, ci.count, i.imgUrl) " +
-            "from CartItem ci, ItemImg im " +
+            "from CartItem ci " +
             "join ci.item i " +
             "where ci.cart.member.name = :memberId " +
-            "and im.item.id = ci.item.id " +
-            "and im.repimgYn = 'Y' " +
+            "and i.id = ci.item.id " +
             "order by ci.regTime desc"
             )
     List<CartDetailDto> findCartDetailDtoList(String memberId);

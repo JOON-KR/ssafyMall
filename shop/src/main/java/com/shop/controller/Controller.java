@@ -30,8 +30,14 @@ public class Controller {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/item/{itemNm}")
+    public ResponseEntity<?> getItem(@PathVariable String itemNm) {
+        Item item = itemRepository.findByItemNm(itemNm);
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
     @GetMapping("/item")
-    public ResponseEntity<?> getItem (){
+    public ResponseEntity<?> getItems (){
         List<Item> result = itemRepository.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
