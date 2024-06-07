@@ -11,8 +11,10 @@ import java.util.Set;
 import com.shop.dto.CartDetailDto;
 import com.shop.dto.ItemDto;
 import com.shop.entity.Item;
+import com.shop.entity.Member;
 import com.shop.repository.CartItemRepository;
 import com.shop.repository.ItemRepository;
+import com.shop.repository.MemberRepository;
 import com.shop.service.ItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,18 @@ public class Jaccard {
 	private final ItemRepository itemRepository;
 	private final ItemService itemService;
 	private final CartItemRepository cartItemRepository;
-
-	private List<Item> CalJaccardSimilar(List<CartDetailDto> User, List<List<CartDetailDto>> list) {
+	private final MemberRepository memberRepository;
+	public List<Item> getJaccardSimilar(String memberId){
+		List<CartDetailDto>User = cartItemRepository.findCartDetailDtoList(memberId);
+		List<Member> members = memberRepository.findAll();
+		List<List<CartDetailDto>>list = new ArrayList<>();
+		for(Member member : members){
+			List<CartDetailDto>tmp = cartItemRepository.findCartDetailDtoList(member.getName());
+			list.add(tmp);
+		}
+		return CalJaccardSimilar(User, list);
+	}
+	public List<Item> CalJaccardSimilar(List<CartDetailDto> User, List<List<CartDetailDto>> list) {
 		
 		List<double[]> filteredList = new ArrayList<>();
 		Set<String> user = new HashSet<>();

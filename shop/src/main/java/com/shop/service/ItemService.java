@@ -93,8 +93,8 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        return itemRepository.getMainItemPage(itemSearchDto, pageable);
+    public Page<MainItemDto> getMainItemPage(List<String> keywords, Pageable pageable){
+        return itemRepository.getMainItemPage(keywords, pageable);
     }
     public List<Item> getItemsByNames(List<String> itemNames) {
         return itemRepository.findByItemNmIn(itemNames);

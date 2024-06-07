@@ -1,6 +1,13 @@
 package com.shop.repository;
 
-import com.querydsl.core.QueryResults;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.thymeleaf.util.StringUtils;
+
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,14 +18,8 @@ import com.shop.dto.QMainItemDto;
 import com.shop.entity.Item;
 import com.shop.entity.QItem;
 import com.shop.entity.QItemImg;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.thymeleaf.util.StringUtils;
 
 import jakarta.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
@@ -89,11 +90,21 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     private BooleanExpression itemNmLike(String searchQuery){
         return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%" + searchQuery + "%");
     }
-
+    
     @Override
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+    public Page<MainItemDto> getMainItemPage(List<String> keywords, Pageable pageable) {
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+
+        BooleanExpression searchConditions = null;
+        
+        if(keywords != null) {
+        	// 각 ItemSearchDto에서 searchQuery 값들을 검색 조건에 추가
+        	for (String keyword: keywords) {
+        		BooleanExpression condition = item.itemNm.eq(keyword);
+        		searchConditions = searchConditions != null ? searchConditions.or(condition) : condition;
+        	}        	
+        }
 
         List<MainItemDto> content = queryFactory
                 .select(
@@ -106,8 +117,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 )
                 .from(itemImg)
                 .join(itemImg.item, item)
-                .where(itemImg.repimgYn.eq("Y"))
-                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .where(itemImg.repimgYn.eq("Y"), searchConditions)
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -117,13 +127,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 .select(Wildcard.count)
                 .from(itemImg)
                 .join(itemImg.item, item)
-                .where(itemImg.repimgYn.eq("Y"))
-                .where(itemNmLike(itemSearchDto.getSearchQuery()))
-                .fetchOne()
-                ;
+                .where(itemImg.repimgYn.eq("Y"), searchConditions) // 추가된 검색 조건 적용
+                .fetchOne();
 
         return new PageImpl<>(content, pageable, total);
     }
+
 
   
 
