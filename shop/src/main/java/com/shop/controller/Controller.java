@@ -2,10 +2,8 @@ package com.shop.controller;
 import java.util.*;
 
 import com.shop.dto.EntitiesDto;
-import com.shop.entity.Item;
-import com.shop.entity.Review;
-import com.shop.repository.ItemRepository;
-import com.shop.repository.ReviewRepository;
+import com.shop.entity.*;
+import com.shop.repository.*;
 import com.shop.util.Cosine;
 import com.shop.util.GcpNaturalLanguage;
 import com.shop.util.Jaccard;
@@ -24,6 +22,12 @@ public class Controller {
 
     private final ItemRepository itemRepository;
     private final Cosine cos;
+
+    @GetMapping("/item/popular")
+    public ResponseEntity<?> getPopularItem() {
+        List<Item> result = itemRepository.findItemsOrderByCartItemCount();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
     @GetMapping("/cosine/{itemNm}")
     public ResponseEntity<?> getCosineItem (@PathVariable String itemNm){
         List<Item> result = cos.getSimilarityItem(itemNm);
@@ -35,6 +39,7 @@ public class Controller {
         Item item = itemRepository.findByItemNm(itemNm);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
+
 
     @GetMapping("/item")
     public ResponseEntity<?> getItems (){

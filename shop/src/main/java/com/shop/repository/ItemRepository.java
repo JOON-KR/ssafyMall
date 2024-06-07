@@ -31,4 +31,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 
     @Query("SELECT i FROM Item i WHERE i.itemNm IN :itemNames")
     List<Item> findByItemNmIn(@Param("itemNames") List<String> itemNames);
+
+    @Query(value = "SELECT i.* FROM item i LEFT JOIN cart_item c ON i.item_id = c.item_id GROUP BY i.item_id ORDER BY COUNT(c.cart_item_id) DESC LIMIT 10", nativeQuery = true)
+    List<Item> findItemsOrderByCartItemCount();
 }

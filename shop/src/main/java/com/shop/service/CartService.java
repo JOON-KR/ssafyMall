@@ -33,11 +33,11 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final OrderService orderService;
 
-    public Long addCart(CartItemDto cartItemDto, String email){
+    public Long addCart(CartItemDto cartItemDto, String name){
 
         Item item = itemRepository.findById(cartItemDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByName(name);
 
         Cart cart = cartRepository.findByMemberId(member.getId());
         if(cart == null){
@@ -58,17 +58,17 @@ public class CartService {
     }
 
     @Transactional(readOnly = true)
-    public List<CartDetailDto> getCartList(String email){
+    public List<CartDetailDto> getCartList(String name){
 
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByName(name);
         Cart cart = cartRepository.findByMemberId(member.getId());
         if(cart == null){
             return cartDetailDtoList;
         }
 
-        cartDetailDtoList = cartItemRepository.findCartDetailDtoList("");
+        cartDetailDtoList = cartItemRepository.findCartDetailDtoList(name);
         return cartDetailDtoList;
     }
 
