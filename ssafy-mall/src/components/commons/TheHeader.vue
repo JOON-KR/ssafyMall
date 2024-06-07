@@ -69,10 +69,10 @@
 
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
-              <a href="index.html">
+              <RouterLink to="/">
                 <!-- <h3>SSAFY MALL</h3> -->
                 <img src="@/assets/images/logo.png" alt="logo" class="img-fluid">
-              </a>
+              </RouterLink>
             </div>
           </div>
 
@@ -176,6 +176,7 @@
 
 <script setup>
 import { useMemberStore } from '@/stores/member'
+import { RouterLink } from 'vue-router';
 import LoginModal from './LoginModal.vue'
 
 const memberStore = useMemberStore()

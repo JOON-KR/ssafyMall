@@ -6,8 +6,12 @@
           <div class="row flex-column-reverse flex-lg-row">
             <div class="col-md-12 col-lg-2">
               <!-- product-thumbnail-slider -->
-              <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" class="product-thumbnail-slider" direction="vertical" slidesPerView="auto" spaceBetween="10" mousewheel>
-                <SwiperSlide style="margin-bottom: 0px !important;">
+              <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" 
+              class="product-thumbnail-slider" 
+              direction="vertical" 
+              slidesPerView="auto" 
+              spaceBetween="10" mousewheel>
+                <SwiperSlide>
                   <img src="@/assets/images/product-thumbnail-1.jpg" alt="" class="thumb-image img-fluid">
                 </SwiperSlide>
                 <SwiperSlide>
@@ -27,7 +31,10 @@
             </div>
             <div class="col-md-12 col-lg-10">
               <!-- product-large-slider -->
-              <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" class="product-large-slider" slidesPerView="1" pagination :navigation="true">
+              <Swiper :modules="[Navigation, Pagination, Scrollbar, A11y]" 
+              class="product-large-slider" 
+              slidesPerView="1" 
+              pagination :navigation="true">
                 <SwiperSlide>
                   <div class="image-zoom" data-scale="2.5" data-image="@/assets/images/product-large-1.jpg">
                     <img src="@/assets/images/product-large-1.jpg" alt="product-large" class="img-fluid">
@@ -159,36 +166,6 @@
                 </div>
               </div>
             </div>
-            <div class="meta-product py-2">
-              <div class="meta-item d-flex align-items-baseline">
-                <h6 class="item-title no-margin pe-2">SKU:</h6>
-                <ul class="select-list list-unstyled d-flex">
-                  <li data-value="S" class="select-item">1223</li>
-                </ul>
-              </div>
-              <div class="meta-item d-flex align-items-baseline">
-                <h6 class="item-title no-margin pe-2">Category:</h6>
-                <ul class="select-list list-unstyled d-flex">
-                  <li data-value="S" class="select-item">
-                    <a href="#">Watch</a>,
-                  </li>
-                  <li data-value="S" class="select-item">
-                    <a href="#"> Screen touch</a>,
-                  </li>
-                </ul>
-              </div>
-              <div class="meta-item d-flex align-items-baseline">
-                <h6 class="item-title no-margin pe-2">Tags:</h6>
-                <ul class="select-list list-unstyled d-flex">
-                  <li data-value="S" class="select-item">
-                    <a href="#">Classic</a>,
-                  </li>
-                  <li data-value="S" class="select-item">
-                    <a href="#"> Modern</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -207,4 +184,11 @@ import 'swiper/css/autoplay';
 </script>
 
 <style scoped>
+.product-thumbnail-slider .swiper-slide {
+  height: 100px; /* 썸네일 슬라이드의 높이를 줄임 */
+}
+.thumb-image {
+  max-height: 100px;
+  object-fit: cover; /* 이미지가 슬라이드 높이에 맞게 조정되도록 설정 */
+}
 </style>
