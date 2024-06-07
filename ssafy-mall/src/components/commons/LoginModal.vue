@@ -33,9 +33,7 @@
   const password = ref('');
   
   const handleSubmit = () => {
-    console.log('Email:', email.value);
-    console.log('Password:', password.value);
-    memberStore.member = { email: "jies000", password: "qwer1234" }
+    memberStore.login('seohyunkwon')
     closeModal();
   };
   

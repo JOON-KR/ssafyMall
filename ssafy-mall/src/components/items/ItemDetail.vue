@@ -1,8 +1,8 @@
 <template>
-  <div class="card mb-3 p-3 rounded-4 shadow border-0">
+  <div class="card mb-3 p-3 rounded-4 shadow border-0" @click="goItemDetail">
     <div class="row g-0">
       <div class="col-md-4 img-div">
-        <img :src="item.imageSrc" class="img-fluid rounded mb-3" alt="itemImg">
+        <img :src="imageUrl" class="img-fluid rounded mb-3" alt="itemImg">
       </div>
       <div class="col-md-8">
         <div class="card-body py-0">
@@ -15,20 +15,31 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   item: Object
+});
+
+const router = useRouter()
+const goItemDetail = () => {
+  router.push(`/item/${props.item.itemNm}`)
+}
+
+const imageUrl = computed(() => {
+  return new URL(`../../assets/images/${props.item.imgUrl}`, import.meta.url).href;
 });
 </script>
 
 <style scoped>
 .img-div {
-  width: 150px; 
+  width: 150px;
   height: 150px;
   display: block;
   margin: 0 auto;
 }
+
 img {
   width: 100%;
   height: 100%;

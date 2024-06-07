@@ -4,11 +4,11 @@
       <div class="row">
         <div class="col-md-12">
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
-            <h2 class="section-title">연관 상품 리스트</h2>
+            <h3 class="section-title">현재 핫한 상품이에요🔥</h3>
             <div class="d-flex align-items-center">
               <div class="swiper-buttons">
-                <button class="swiper-prev item-carousel-prev btn btn-yellow">❮</button>
-                <button class="swiper-next item-carousel-next btn btn-yellow">❯</button>
+                <button class="swiper-prev item-popluar-carousel-prev btn btn-yellow">❮</button>
+                <button class="swiper-next item-popluar-carousel-next btn btn-yellow">❯</button>
               </div>  
             </div>
           </div>          
@@ -17,8 +17,8 @@
 
       <div class="row">
         <div class="col-md-12">
-          <swiper class="item-carousel swiper" v-bind="itemSwiperOption">
-            <swiper-slide v-for="item in items" :key="item.itemNm"><ItemDetail :item="item"/></swiper-slide>
+          <swiper class="item-popluar-carousel swiper" v-bind="itemSwiperOption">
+            <swiper-slide v-for="(item, index) in items" :key="index"><ItemDetail :item="item"/></swiper-slide>
           </swiper>
         </div>
       </div>
@@ -33,33 +33,36 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import axios from 'axios';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
+import { useMemberStore } from '@/stores/member'
 
 
 const itemSwiperOption = {
   modules: [Navigation, Pagination],
   slidesPerView: 5,
   spaceBetween: 30,
-  loop: true,
-
   navigation: {
-    nextEl: '.item-carousel-next', // 아이템 리스트 스와이퍼의 다음 버튼 클래스 지정
-    prevEl: '.item-carousel-prev'  // 아이템 리스트 스와이퍼의 이전 버튼 클래스 지정
+    nextEl: '.item-popluar-carousel-next', // 아이템 리스트 스와이퍼의 다음 버튼 클래스 지정
+    prevEl: '.item-popluar-carousel-prev'  // 아이템 리스트 스와이퍼의 이전 버튼 클래스 지정
   }
 };
 
-const props = defineProps({item: Object})
-
 const items = ref([])
 onMounted(() => {
-  axios.get(`http://localhost:80/cosine/${props.item.itemNm}`)
-  .then((res) => {
-    items.value = res.data
-    console.log("cosine =" , res.data)
-  }).catch((err) => console.log(err))
+  fetchData()
 })
+
+
+
+const fetchData = () => {
+    axios.get(`http://localhost:80/item/popular`)
+    .then((res) => {
+      items.value = res.data
+      console.log(res.data)
+    }).catch((err) => console.log(err))
+}
 
 </script>
 

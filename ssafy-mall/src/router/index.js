@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ItemView from '@/views/ItemView.vue'
+import SearchView from '@/views/SearchView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/item/:itemNm',
       name: 'item',
       component: ItemView
+    },
+    {
+      path: '/search/:keyword',
+      name: 'search',
+      component: SearchView
     }
   ]
 })

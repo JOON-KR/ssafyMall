@@ -1,31 +1,29 @@
 <template>
-  <div ref="wordcloudContainer" style="width: 600px; height: 400px;"></div>
+  <div ref="wordcloud" style="width: 600px; height: 400px;"></div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
 import WordCloud from 'wordcloud';
 
-const wordcloudContainer = ref(null);
-
-const props = defineProps({
-  words: {
-    type: Array,
-    required: true,
+export default {
+  name: 'WordCloud',
+  props: {
+    words: {
+      type: Array,
+      required: true,
+    },
   },
-});
-
-const renderWordCloud = () => {
-  if (wordcloudContainer.value) {
-    WordCloud(wordcloudContainer.value, {
-      list: props.words,
-    });
-  }
+  mounted() {
+    this.renderWordCloud();
+  },
+  methods: {
+    renderWordCloud() {
+      WordCloud(this.$refs.wordcloud, {
+        list: this.words,
+      });
+    },
+  },
 };
-
-onMounted(() => {
-  renderWordCloud();
-});
 </script>
 
 <style scoped>

@@ -1,11 +1,17 @@
 <template>
-  <div v-if="item != null && score != 0 && positiveWords != null && negativeWords != null">
-    <SellingItem :item="item" :score="score"/>
+  <div>
+    <div v-if="item != null && score != 0 && positiveWords != null && negativeWords != null">
+      <SellingItem :item="item" :score="score" />
+      <SellingItemInfo :item="item" :positive-words="positiveWords" :negative-words="negativeWords" :score="score"
+        :reviews="reviews" />
 
-    <SellingItemInfo :item="item" :positive-words="positiveWords" :negative-words="negativeWords" :score="score" :reviews="reviews"/>
+      <ItemCosineList :item="item" />
 
-    <ItemCosineList :item="item" />
-
+    </div>
+    <div class="preloader-wrapper" v-else>
+      <div class="preloader">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,7 +40,7 @@ const fetchData = async () => {
 
     const positiveResponse = await axios(`${URL}/positive/${item.value.itemNm}`)
     positiveWords.value = positiveResponse.data
-
+    console.log(positiveWords)
     const negativeResponse = await axios(`${URL}/negative/${item.value.itemNm}`)
     negativeWords.value = negativeResponse.data
 

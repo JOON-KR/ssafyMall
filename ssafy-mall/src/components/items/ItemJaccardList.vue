@@ -1,10 +1,10 @@
 <template>
-  <section class="py-5 overflow-hidden">
+  <section class="py-5 overflow-hidden" v-if="memberStore.isLogin">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
-            <h2 class="section-title">추천 상품 리스트</h2>
+            <h3 class="section-title">{{ name }}님에게 추천드리는 상품✨</h3>
             <div class="d-flex align-items-center">
               <div class="swiper-buttons">
                 <button class="swiper-prev item-carousel-prev btn btn-yellow">❮</button>
@@ -33,10 +33,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated, watch } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
+import { useMemberStore } from '@/stores/member'
 
+const memberStore = useMemberStore()
 
 const itemSwiperOption = {
   modules: [Navigation, Pagination],
@@ -52,11 +54,20 @@ const itemSwiperOption = {
 
 const items = ref([])
 onMounted(() => {
-  axios.get('http://localhost:80/jaccard/seohyunkwon')
-  .then((res) => {
-    items.value = res.data
-  }).catch((err) => console.log(err))
+  fetchData()
 })
+
+watch(memberStore.isLogin, () => {fetchData()})
+const name = ref('익명')
+const fetchData = () => {
+  if(memberStore.isLogin) {
+    name.value = sessionStorage.getItem('name')
+    axios.get(`http://localhost:80/jaccard/${sessionStorage.getItem('name')}`)
+    .then((res) => {
+      items.value = res.data
+    }).catch((err) => console.log(err))
+  }
+}
 
 </script>
 

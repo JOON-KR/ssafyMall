@@ -72,7 +72,6 @@ onMounted(() => {
   axios.get('http://localhost:80/item')
   .then((res) => {
     items.value = res.data
-    console.log("items = ", res.data)
   }).catch(err => console.log(err))
 
 })
