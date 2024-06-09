@@ -31,8 +31,11 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
         ;
 
+        http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable());
+
         http.authorizeRequests()
-                .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

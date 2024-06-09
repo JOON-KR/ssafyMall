@@ -50,7 +50,7 @@ public class Jaccard {
 		for (int i = 0; i < list.size(); i++) {
 			List<CartDetailDto> tmp = list.get(i);
 			Set<String> other = new HashSet<>();
-			for(int j = 0; j < User.size();j++) {
+			for(int j = 0; j < tmp.size();j++) {
 				other.add(tmp.get(j).getItemNm());
 			}
 
@@ -68,7 +68,7 @@ public class Jaccard {
 		}
 		Collections.sort(filteredList, (o1, o2)->Double.compare(o2[1],o1[1]));
 		// 상위 10%의 데이터 수집
-		int filteredSize = filteredList.size()/10;
+		int filteredSize = filteredList.size()/5;
 			
 		// 인덱스 저장용
 		int indexVal = 0;
@@ -99,6 +99,7 @@ public class Jaccard {
 			Item item= itemRepository.findByItemNm(countingList.get(i)[0]);
 			result.add(item);
 		}
+		System.out.println("result.size() = " + result.size());
 		return result;
 	}
 

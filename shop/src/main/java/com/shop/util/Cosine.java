@@ -25,7 +25,7 @@ public class Cosine {
 	
 	public List<Item> getSimilarityItem(String itemName){
 		List<EntitiesDto> itemEntity = gnl.getPositiveEntities(itemName);
-		List<Item> temp= itemRepositiry.findAll();
+		List<Item> temp= itemRepositiry.findAll().subList(0, 11);
 		List<List<EntitiesDto>> list = new ArrayList<List<EntitiesDto>>();
 		for(Item item : temp) {
 			List<EntitiesDto> tmp = gnl.getPositiveEntities(item.getItemNm());
@@ -63,10 +63,14 @@ public class Cosine {
 		System.out.println(cosineList.size());
 		System.out.println(list.get(0).get(0).getItemNm());
 		for(int i = 0; i < cosineList.size() && i < 10 &&i<list.size() ; i++) {
-			String name = list.get((int)cosineList.get(i)[0]).get(0).getItemNm();
-			result.add(itemRepositiry.findByItemNm(name));
+			if(list.get((int)cosineList.get(i)[0]).size()>0) {
+				System.out.println("if");
+				String name = list.get((int) cosineList.get(i)[0]).get(0).getItemNm();
+				if(name.equals(Item.get(0).getItemNm())) continue;
+				result.add(itemRepositiry.findByItemNm(name));
+			}
 		}
-		
+		System.out.println("result = " + result.size());
 		return result;
 	}
 	
