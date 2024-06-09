@@ -147,6 +147,10 @@ const addCart = () => {
 </script>
 
 <style scoped>
+section {
+  padding: 0px 200px 0px 200px;
+}
+
 .product-thumbnail-slider .swiper-slide {
   height: 100px;
   /* 썸네일 슬라이드의 높이를 줄임 */

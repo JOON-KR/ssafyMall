@@ -21,7 +21,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 const slides = [
   { image: new URL('@/assets/images/slide-1.jpg', import.meta.url).href, alt: 'Slide 1' },
-  { image: new URL('@/assets/images/slide-2.jpg', import.meta.url).href, alt: 'Slide 2' },
+  { image: new URL('@/assets/images/slide-2.gif', import.meta.url).href, alt: 'Slide 2' },
   { image: new URL('@/assets/images/slide-3.jpg', import.meta.url).href, alt: 'Slide 3' },
 ];
 

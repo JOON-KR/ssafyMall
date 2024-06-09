@@ -33,7 +33,7 @@
   const password = ref('');
   
   const handleSubmit = () => {
-    memberStore.login('seohyunkwon')
+    memberStore.login('윤아름')
     closeModal();
   };
   

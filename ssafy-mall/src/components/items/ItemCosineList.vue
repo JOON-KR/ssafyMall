@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
-            <h2 class="section-title">연관 상품 리스트</h2>
+            <h2 class="section-title">이런 상품도 추천드려요🎉</h2>
             <div class="d-flex align-items-center">
               <div class="swiper-buttons">
                 <button class="swiper-prev item-carousel-prev btn btn-yellow">❮</button>
@@ -53,12 +53,10 @@ const itemSwiperOption = {
 const props = defineProps({item: Object})
 
 const items = ref([])
-onMounted(() => {
-  axios.get(`http://localhost:80/cosine/${props.item.itemNm}`)
-  .then((res) => {
-    items.value = res.data
-    console.log("cosine =" , res.data)
-  }).catch((err) => console.log(err))
+onMounted(async () => {
+  const response = await axios.get(`http://localhost:80/cosine/${props.item.itemNm}`)
+  items.value  = response.data;
+ 
 })
 
 </script>

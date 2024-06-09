@@ -9,9 +9,6 @@
             </a>
         </figure>
         <h3 @click="goItemDetail(item)">{{ item.itemNm }}</h3>
-        <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary">
-                <use xlink:href="#star-solid"></use>
-            </svg> 4.5</span>
         <span class="price" @click="goItemDetail(item)">₩ {{ item.price }}</span>
         <div class="d-flex align-items-center justify-content-between">
             <div class="input-group product-qty">

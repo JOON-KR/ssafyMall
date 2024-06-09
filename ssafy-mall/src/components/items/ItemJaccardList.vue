@@ -7,8 +7,8 @@
             <h3 class="section-title">{{ name }}님에게 추천드리는 상품✨</h3>
             <div class="d-flex align-items-center">
               <div class="swiper-buttons">
-                <button class="swiper-prev item-carousel-prev btn btn-yellow">❮</button>
-                <button class="swiper-next item-carousel-next btn btn-yellow">❯</button>
+                <button class="swiper-prev item-jaccard-carousel-prev btn btn-yellow">❮</button>
+                <button class="swiper-next item-jaccard-carousel-next btn btn-yellow">❯</button>
               </div>  
             </div>
           </div>          
@@ -17,7 +17,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <swiper class="item-carousel swiper" v-bind="itemSwiperOption">
+          <swiper class="item-jaccard-carousel swiper" v-bind="itemSwiperOption">
             <swiper-slide v-for="item in items" :key="item.itemNm"><ItemDetail :item="item"/></swiper-slide>
           </swiper>
         </div>
@@ -47,8 +47,8 @@ const itemSwiperOption = {
   loop: true,
 
   navigation: {
-    nextEl: '.item-carousel-next', // 아이템 리스트 스와이퍼의 다음 버튼 클래스 지정
-    prevEl: '.item-carousel-prev'  // 아이템 리스트 스와이퍼의 이전 버튼 클래스 지정
+    nextEl: '.item-jaccard-carousel-next', // 아이템 리스트 스와이퍼의 다음 버튼 클래스 지정
+    prevEl: '.item-jaccard-carousel-prev'  // 아이템 리스트 스와이퍼의 이전 버튼 클래스 지정
   }
 };
 
@@ -57,11 +57,12 @@ onMounted(() => {
   fetchData()
 })
 
-watch(memberStore.isLogin, () => {fetchData()})
 const name = ref('익명')
+watch(memberStore.isLogin, () => {fetchData()})
 const fetchData = () => {
   if(memberStore.isLogin) {
     name.value = sessionStorage.getItem('name')
+    console.log('name = ', sessionStorage.getItem('name'))
     axios.get(`http://localhost:80/jaccard/${sessionStorage.getItem('name')}`)
     .then((res) => {
       items.value = res.data
